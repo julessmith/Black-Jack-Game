@@ -1,0 +1,26 @@
+//blackjack app
+//programmed by Joolean 1/21/18
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class BlackjackApp {
+
+	public static void main(String[] args) {
+		
+		_BackjackGameEngine blackjack = new _BackjackGameEngine();
+		
+		for(int i = 1; ; i++) {
+			System.out.println("B L A C K J A C K //  " + i);
+			blackjack.playGame();
+			blackjack.callWinner();
+			
+			Scanner in= new Scanner (System.in);
+			
+			String another;
+			System.out.println("Would you like to play again? Enter yes if you do.");
+			another = in.nextLine();
+			if(!another.toLowerCase().equals("yes"))
+				break;
+		}
+	}
+}
