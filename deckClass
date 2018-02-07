@@ -1,0 +1,35 @@
+//deck class blackjack
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Deck {
+	private ArrayList <Card> cardList;
+	private int top = 0;
+	
+	public Deck()
+	{
+		cardList = new ArrayList<Card>();
+	}	
+	public void populate() {
+		top = 0;
+		for(int suit = 1; suit <= 4; suit++){
+			for(int rank = 1; rank <= 13; rank++){
+				Card c = new Card (rank, suit);
+				cardList.add(c);
+			}
+		}
+	}
+	public void shuffle() {
+		Collections.shuffle(cardList);
+	}
+	public Card deal() {
+		Card c = cardList.get(top);
+		cardList.remove(top);
+		return(c);
+	}
+	public boolean isEmpty() {
+		return cardList.isEmpty();
+	}
+}
+
+
