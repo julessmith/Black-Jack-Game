@@ -1,0 +1,107 @@
+//black jack game engine
+//programmed by Joolean
+import java.lang.reflect.Array;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class _BackjackGameEngine {
+	Scanner in = new Scanner(System.in);
+
+	int playerValue = 0;
+	int dealerValue = 0;
+	String response = "";
+	
+	ArrayList<Card> playerHand = new ArrayList<Card>();
+	ArrayList<Card> dealerHand = new ArrayList<Card>();
+	
+	public void playGame()
+	{
+		playerValue = 0;
+		dealerValue = 0;
+		
+		Deck deck = new Deck();
+		deck.populate();
+		
+		deck.shuffle();
+		
+		System.out.println("Your cards: ");
+		for(int i = 0; i < 2; i++)
+		{
+			Card card = deck.deal();
+			System.out.println(card.toString());
+			playerValue+=card.rankValue();
+			playerHand.add(card);
+		}
+		System.out.println("Your hand value: " + playerValue+"\n");
+		
+		Card card1 = deck.deal();
+		dealerHand.add(card1);
+		System.out.println("Dealers First Card: ");
+		card1.flip();
+		Card card2 = deck.deal();
+		System.out.println("Dealers Second Card: " + card2.toString());
+		dealerValue+=card2.rankValue() + card1.rankValue();
+		dealerHand.add(card2);
+		
+		int round = 0;
+		while(dealerValue < 22 && playerValue <22 && round <3) {
+			System.out.println("\nYour deck value is " + playerValue + ". Do you want to hit or stay? (hit/stay)");
+			response = in.nextLine().toLowerCase();
+			
+			if(response.equals("hit")) {
+				Card card = deck.deal();
+				System.out.println("Your new card: " + card.toString());
+				playerValue += card.rankValue();
+				playerHand.add(card);
+				
+				if(dealerValue <= 17) {
+					Card card3 = deck.deal();
+					dealerValue += card3.rankValue();
+					dealerHand.add(card3);
+				}
+				round++;
+				
+			}
+			else if (response.equals("stay")) {
+				if(dealerValue <= 21) {
+				Card card = deck.deal();
+				dealerValue += card.rankValue();
+				dealerHand.add(card);		
+			}
+			round++;		
+			}
+			else {
+				System.out.println("Enter a valid response!");
+			}
+			System.out.println(round);
+			
+			if (playerValue >= 22) {
+				break;
+			}
+			
+		}
+	}
+	public void callWinner()
+	{
+		System.out.println("====final results====");
+		System.out.println("Player's hand value: " + playerValue);
+		System.out.println("Dealer's hand value: " + dealerValue);
+
+		System.out.println("\nDealer's Hand: ");
+		for(int i = 0; i < dealerHand.size();i++)
+		{
+			System.out.println(dealerHand.get(i));
+		}
+		if(playerValue < dealerValue) {
+			if(playerValue > 21) {
+				System.out.println("Player, you both lost.");
+			}
+			else {
+				System.out.println("Player, you win!");
+			}
+		}
+		else {
+			System.out.println("Player, you tied with the dealer.");
+		}
+	}
+}
